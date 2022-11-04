@@ -1,0 +1,2849 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.cdnfonts.com/css/orbitron" rel="stylesheet">
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+  <title>CodePen - Pure CSS Project Filter Tabs (Responsive)</title>
+  
+  
+  
+  
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: whitesmoke;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+  font-family: Orbitron, sans-serif;
+  overflow-x: hidden;
+
+}
+
+p, span, a, h1, h2, h3, h4, h5, h6, li, ul {
+    font-family: Orbitron, sans-serif;
+    letter-spacing: 1.5px;
+    text-transform: uppercase !important;
+}
+.container{
+  text-align: center;
+}
+
+.wrapper {
+  width: 100%;
+  padding: 60px 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+[type=radio]:checked,
+[type=radio]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+[type=radio]:checked + label,
+[type=radio]:not(:checked) + label {
+  position: relative;
+  padding-left: 22px;
+  padding-right: 16px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  line-height: 30px;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #fff;
+  margin-right: 10px;
+  margin-left: 10px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  padding-top: 5px;
+}
+
+[type=radio]:checked + label:after,
+[type=radio]:not(:checked) + label:after {
+  content: "";
+  border-radius: 2px;
+  height: 20px;
+  padding: 5px;
+  background-color: #e74c3c;
+  position: absolute;
+  bottom: 0;
+  left: 6px;
+  top: -4px;
+  z-index: -1;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+[type=radio]:not(:checked) + label:after {
+  opacity: 0;
+  width: 0;
+}
+
+[type=radio]:checked + label:after {
+  opacity: 1;
+  width: calc(100% - 24px);
+}
+
+.checkbox-all:checked + label:after,
+.checkbox-all:not(:checked) + label:after {
+  background-color: hotpink;
+  padding: 10px;
+}
+
+.checkbox-offhand:checked + label:after,
+.checkbox-offhand:not(:checked) + label:after {
+  background-color: #f1c40f;
+  padding: 10px;
+}
+
+.checkbox-html:checked + label:after,
+.checkbox-html:not(:checked) + label:after {
+  background-color: #ff932b;
+  padding: 10px;
+}
+
+.checkbox-comweapons:checked + label:after,
+.checkbox-comweapons:not(:checked) + label:after {
+  background-color: #64e1fe;
+  padding: 10px;
+}
+
+.checkbox-vue:checked + label:after,
+.checkbox-vue:not(:checked) + label:after {
+  background-color: #6edbbe;
+  padding: 10px;
+}
+
+.checkbox-inqweapons:checked + label:after,
+.checkbox-inqweapons:not(:checked) + label:after {
+  background-color: #e75139;
+  padding: 10px;
+}
+
+.checkbox-all:checked + label {
+  margin-left: 17px;
+}
+
+.seperator {
+  width: 100%;
+  height: 30px;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1500px;
+  padding-left: 210px;
+}
+
+.project {
+  border-radius: 4px;
+  box-shadow: 6px 7px 28px 0 rgba(16, 16, 16, 0.7);
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.3s linear;
+}
+
+.project.offhand {
+  border: 3px solid #f1c40f;
+}
+
+.project.html {
+  border: 3px solid #ff932b;
+}
+
+.project.comweapons {
+  border: 3px solid #64e1fe;
+}
+
+.project.vue {
+  border: 3px solid #6edbbe;
+}
+
+.project.inqweapons {
+  border: 3px solid #e75139;
+}
+
+.project.offhand,
+.project.html,
+.project.comweapons,
+.project.vue,
+.project.inqweapons {
+  opacity: 0;
+  transform: scale(0);
+  padding: 0;
+  margin: 0;
+  visibility: hidden;
+  border-width: 0;
+}
+
+.checkbox-all:checked ~ .cards .project.offhand,
+.checkbox-all:checked ~ .cards .project.html,
+.checkbox-all:checked ~ .cards .project.comweapons,
+.checkbox-all:checked ~ .cards .project.vue,
+.checkbox-all:checked ~ .cards .project.inqweapons,
+.checkbox-offhand:checked ~ .cards .project.offhand,
+.checkbox-html:checked ~ .cards .project.html,
+.checkbox-comweapons:checked ~ .cards .project.comweapons,
+.checkbox-vue:checked ~ .cards .project.vue,
+.checkbox-inqweapons:checked ~ .cards .project.inqweapons {
+  opacity: 1;
+  min-height: 240px;
+  /* min-width: calc(22% - 28px); */
+  min-width: 220px;
+  padding: 0 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
+  visibility: visible;
+  transform: scale(1);
+  border-width: 3px;
+}
+
+@media only screen and (max-width: 650px) {
+  .container {
+    width: 100%;
+  }
+
+  label {
+    display: block;
+  }
+
+  .cards {
+    flex-direction: column;
+    width: auto;
+  }
+}
+
+
+/* popup */
+
+
+/* horizontal & vertical centering */
+.center {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+
+.center__inner {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* modal */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+/* display the modal overlay when the input[type=radio] is checked */
+.modal__state:checked + .modal__overlay {
+  opacity: 1;
+  animation: fade-in 0.4s;
+  display: block;
+  z-index: 1000;
+}
+
+@keyframes scoot-up {
+  0% {
+    margin-top: 80px;
+  }
+  100% {
+    margin-top: 550px;
+  }
+}
+.modal {
+  position: relative;
+  /* margin: 50px; */
+  margin-top: 550px;
+  padding: 40px 20px;
+  background: rgba(0, 0, 0, 0.7);
+  text-align: left;
+  box-shadow: 0px 0px 38px rgba(0, 0, 0, 0.2);
+}
+
+.modal__state:checked + .modal__overlay .modal {
+  margin-top: 50px;
+  animation: scoot-up 0.2s;
+  animation-timing-function: ease-out;
+  transform-origin: 50% 0px;
+  z-index: 100;
+}
+
+.modal__close {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+}
+
+.modal__overlay-close {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* the input[type=radio] that's toggled when the label is clicked */
+.modal__state {
+  display: none;
+}
+
+/* button styles */
+.button {
+  display: inline-block;
+  padding: 1em;
+  font-weight: bold;
+  border-radius: 4px;
+
+}
+
+.button:hover,
+.button:focus {
+  cursor: pointer;
+  
+}
+
+.button:active {
+  margin-top: 4px;
+  margin-bottom: -4px;
+  
+}
+
+/* close button */
+.button--close {
+  padding: 0.2em 0.5em;
+  background-color: #8a0917;
+  box-shadow: 0 4px 0 #5a060f;
+  color: #fff;
+}
+
+.button--inline {
+  padding: 0.25em 0.5em;
+}
+
+
+
+.button--close:active {
+  box-shadow: 0 0 0 #8a0917;
+}
+
+
+
+/* ------------------------ slider ----------------------- */
+
+
+.wrapper {
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.row {
+  width: 100%;
+  clear: both;
+  overflow: auto;
+  background-color: #EFF9FA;
+  position: relative;
+  padding: 0;
+}
+
+.row-features {
+  position: relative;
+}
+
+.new-feature-slider {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+}
+.new-feature-slider .feature-slide {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.new-feature-slider .feature-slide .feature-slide-image img {
+  width: 100%;
+  display: block;
+}
+.new-feature-slider .feature-slide.active {
+  opacity: 1;
+}
+
+.block-wrap {
+  position: relative;
+  width: 100%;
+}
+.block-wrap:before {
+  content: "";
+  width: 100%;
+  padding-top: 100%;
+  display: block;
+}
+
+.w50 {
+  width: 50%;
+  float: left;
+}
+
+.h50:before {
+  padding-top: 50%;
+}
+
+.block {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #959393;
+}
+
+.content-centered {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  width: 100%;
+  max-width: 35em;
+  transform: translate(-50%, -50%);
+  text-align: left;
+  color: black;
+}
+
+.controls {
+  box-sizing: border-box;
+  width: 80px;
+  height: 160px;
+  position: absolute;
+  z-index: 9999;
+  /* border-right: solid 8px rgba(93, 193, 195, 0.4); */
+  overflow: visible;
+}
+.controls .control {
+  box-sizing: border-box;
+  width: 80px;
+  height: 80px;
+  display: block;
+  background: #959393;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  float: right;
+}
+.controls .control:first-child {
+  border-bottom: 1px solid rgba(4, 68, 86, 0.2);
+}
+.controls .control.button-next {
+  transform: rotate(180deg);
+}
+.controls .control:before, .controls .control:after {
+  width: 20px;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  transform-origin: left center;
+  content: "";
+  background-color: #333f4a;
+  transition: all 0.3s ease;
+}
+.controls .control:before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.controls .control:after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.controls .control:hover {
+  background-color: #5dc1c3;
+}
+.controls .control:hover:before, .controls .control:hover:after {
+  background-color: white;
+}
+
+.new-feature-controls {
+  bottom: 10px;
+  right: 50%;
+}
+
+
+</style>
+
+
+
+
+</head>
+
+<body translate="no" >
+
+
+
+
+  <div class="wrapper">
+  <div class="container">
+    <input class="checkbox-all" id="all" type="radio" name="checkbox" checked=""/>
+    <label for="all">all</label>
+    <input class="checkbox-offhand" id="offhand" type="radio" name="checkbox"/>
+    <label for="offhand">offhands</label>
+    <input class="checkbox-comweapons" id="comweapons" type="radio" name="checkbox"/>
+    <label for="comweapons">com weapons</label>
+    <input class="checkbox-inqweapons" id="inqweapons" type="radio" name="checkbox"/>
+    <label for="inqweapons">inq weapons</label>
+    
+    <div class="seperator"></div>
+
+<!-- modal content -->
+                
+
+<!---------------------------- modal start ------------------------------>
+                <input type="checkbox" name="modalwa" id="modalwa" class="modal__state">
+                <div class="modal__overlay">
+                    <label for="modalwa" class="modal__overlay-close"></label>
+                    <div class="modal">
+                        <label class="button button--close modal__close" for="modalwa"><i class="fa fa-times">X</i></label>
+                        <div class="wrapper">
+                            <div class="row row-features">
+                              <div class="block-wrap h50 mob-auto">
+                                <div class="block">
+                                  <div class="new-feature-slider">
+                                    <div id="slider-1" class="feature-slide active">
+                                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                                        <div class="block">
+                                          <div class="feature-slide-image">
+                                            <div class="" style="background-image:url('img/a/a1.jpg');">
+                                              <img src="img/a/a1.jpg">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="block-wrap w50 center-content mob-auto">
+                                        <div class="block">
+                                          <div class="content-centered overview-text">
+                                            <h2 class="fakeh1">tittle here</h2>
+                                            <span class="divider-wave blue-wave"></span>
+                                            <p></p>
+                                            <p>Texthere</p>
+                                            <p></p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div id="slider-2" class="feature-slide">
+                                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                                        <div class="block">
+                                          <div class="feature-slide-image">
+                                            <div class="" style="background-image:url('img/a/a2.jpg');">
+                                              <img src="img/a/a2.jpg">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="block-wrap w50 center-content mob-auto">
+                                        <div class="block">
+                                          <div class="content-centered overview-text">
+                                            <h2 class="fakeh1">tittle here</h2>
+                                            <span class="divider-wave blue-wave"></span>
+                                            <p></p>
+                                            <p>Texthere</p>
+                                            <p></p>
+                                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                                            <button>agorase to</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="controls new-feature-controls">
+                                    <span class="control button-prev"></span>
+                                    <span class="control button-next"></span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalwb" id="modalwb" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalwb" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalwb"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/b/b1.jpg');">
+                              <img src="img/b/b1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/b/b2.jpg');">
+                              <img src="img/b/b2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/b/b3.jpg');">
+                              <img src="img/b/b3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/b/b4.jpg');">
+                              <img src="img/b/b4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/b/b5.jpg');">
+                              <img src="img/b/b5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalwc" id="modalwc" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalwc" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalwc"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/c/c1.jpg');">
+                              <img src="img/c/c1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/c/c2.jpg');">
+                              <img src="img/c/c2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/c/c3.jpg');">
+                              <img src="img/c/c3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/c/c4.jpg');">
+                              <img src="img/c/c4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/c/c5.jpg');">
+                              <img src="img/c/c5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalwd" id="modalwd" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalwd" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalwd"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/d/d1.jpg');">
+                              <img src="img/d/d1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/d/d2.jpg');">
+                              <img src="img/d/d2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/d/d3.jpg');">
+                              <img src="img/d/d3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/d/d4.jpg');">
+                              <img src="img/d/d4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/d/d5.jpg');">
+                              <img src="img/d/d5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalwe" id="modalwe" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalwe" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalwe"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/e/e1.jpg');">
+                              <img src="img/e/e1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/e/e2.jpg');">
+                              <img src="img/e/e2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/e/e3.jpg');">
+                              <img src="img/e/e3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/e/e4.jpg');">
+                              <img src="img/e/e4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/e/e5.jpg');">
+                              <img src="img/e/e5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalwf" id="modalwf" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalwf" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalwf"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/f/f1.jpg');">
+                              <img src="img/f/f1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/f/f2.jpg');">
+                              <img src="img/f/f2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/f/f3.jpg');">
+                              <img src="img/f/f3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/f/f4.jpg');">
+                              <img src="img/f/f4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/f/f5.jpg');">
+                              <img src="img/f/f5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalwg" id="modalwg" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalwg" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalwg"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/g/g1.jpg');">
+                              <img src="img/g/g1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/g/g2.jpg');">
+                              <img src="img/g/g2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/g/g3.jpg');">
+                              <img src="img/g/g3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/g/g4.jpg');">
+                              <img src="img/g/g4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/g/g5.jpg');">
+                              <img src="img/g/g5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+
+
+<!-- ------------------------------OFFHANDS------------------------------ -->
+
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modaloa" id="modaloa" class="modal__state">
+<div class="modal__overlay">
+    <label for="modaloa" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modaloa"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/a/a1.jpg');">
+                              <img src="img/a/a1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/a/a2.jpg');">
+                              <img src="img/a/a2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/a/a3.jpg');">
+                              <img src="img/a/a3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/a/a4.jpg');">
+                              <img src="img/a/a4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/a/a5.jpg');">
+                              <img src="img/a/a5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalob" id="modalob" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalob" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalob"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/i/i1.jpg');">
+                              <img src="img/i/i1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/i/i2.jpg');">
+                              <img src="img/i/i2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-3" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/i/i3.jpg');">
+                              <img src="img/i/i3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-4" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/i/i4.jpg');">
+                              <img src="img/i/i4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-5" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/i/i5.jpg');">
+                              <img src="img/i/i5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modaloc" id="modaloc" class="modal__state">
+<div class="modal__overlay">
+    <label for="modaloc" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modaloc"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/j/j1.jpg');">
+                              <img src="img/j/j1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="slider-2" class="feature-slide">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/j/j2.jpg');">
+                              <img src="img/j/j2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Texthefadsfadsfdasfadsfasdre</p>
+                            <p></p>
+                            <p style="font-weight: 800;">Floor: 120 movr</p>
+                            <button>agorase to</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    
+
+
+                  </div>
+                  <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalod" id="modalod" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalod" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalod"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/l/l1.jpg');">
+                              <img src="img/l/l1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modaloe" id="modaloe" class="modal__state">
+<div class="modal__overlay">
+    <label for="modaloe" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modaloe"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/l/l2.jpg');">
+                              <img src="img/l/l2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalof" id="modalof" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalof" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalof"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/l/l3.jpg');">
+                              <img src="img/l/l3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalog" id="modalog" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalog" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalog"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/l/l4.jpg');">
+                              <img src="img/l/l4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modaloh" id="modaloh" class="modal__state">
+<div class="modal__overlay">
+    <label for="modaloh" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modaloh"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/l/l5.jpg');">
+                              <img src="img/l/l5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!-- UNIQUE WEAPONS -->
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalia" id="modalia" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalia" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalia"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k1.jpg');">
+                              <img src="img/k/k1.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalib" id="modalib" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalib" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalib"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k2.jpg');">
+                              <img src="img/k/k2.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalic" id="modalic" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalic" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalic"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k3.jpg');">
+                              <img src="img/k/k3.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalid" id="modalid" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalid" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalid"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k4.jpg');">
+                              <img src="img/k/k4.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalie" id="modalie" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalie" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalie"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k5.jpg');">
+                              <img src="img/k/k5.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalif" id="modalif" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalif" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalif"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k6.jpg');">
+                              <img src="img/k/k6.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalig" id="modalig" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalig" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalig"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k7.jpg');">
+                              <img src="img/k/k7.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalih" id="modalih" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalih" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalih"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k8.jpg');">
+                              <img src="img/k/k8.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalii" id="modalii" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalii" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalii"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k9.jpg');">
+                              <img src="img/k/k9.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalij" id="modalij" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalij" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalij"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k10.jpg');">
+                              <img src="img/k/k10.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalik" id="modalik" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalik" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalik"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k11.jpg');">
+                              <img src="img/k/k11.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalil" id="modalil" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalil" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalil"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k12.jpg');">
+                              <img src="img/k/k12.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalim" id="modalim" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalim" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalim"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k13.jpg');">
+                              <img src="img/k/k13.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+<!---------------------------- modal start ------------------------------>
+<input type="checkbox" name="modalin" id="modalin" class="modal__state">
+<div class="modal__overlay">
+    <label for="modalin" class="modal__overlay-close"></label>
+    <div class="modal">
+        <label class="button button--close modal__close" for="modalin"><i class="fa fa-times">X</i></label>
+        <div class="wrapper">
+            <div class="row row-features">
+              <div class="block-wrap h50 mob-auto">
+                <div class="block">
+                  <div class="new-feature-slider">
+                    <div id="slider-1" class="feature-slide active">
+                      <div class="block-wrap w50 new-feature-image-wrap mob-auto">
+                        <div class="block">
+                          <div class="feature-slide-image">
+                            <div class="" style="background-image:url('img/k/k14.jpg');">
+                              <img src="img/k/k14.jpg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="block-wrap w50 center-content mob-auto">
+                        <div class="block">
+                          <div class="content-centered overview-text">
+                            <h2 class="fakeh1">tittle here</h2>
+                            <span class="divider-wave blue-wave"></span>
+                            <p></p>
+                            <p>Textfadsfadsfadshere</p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="controls new-feature-controls">
+                    <span class="control button-prev"></span>
+                    <span class="control button-next"></span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<!------------------------- modal end ------------------------------------>
+
+
+    <!-- project cards-->
+    <div class="cards">
+      <!-- <label class="project offhand button" style="background-image: url('kala.jpg'); background-size: contain;" for="modal__state">  </label> -->
+
+      
+      
+      
+      <!-- <div class="project offhand" style="background-image: url('img/a/a2.jpg'); background-size: contain;" for="modal__state"></div>
+      <div class="project offhand" style="background-image: url('img/a/a3.jpg'); background-size: contain;" for="modal__state"></div>
+      <div class="project offhand" style="background-image: url('img/a/a4.jpg'); background-size: contain;" for="modal__state"></div>
+      <div class="project offhand" style="background-image: url('img/a/a5.jpg'); background-size: contain;" for="modal__state"></div> -->
+      <label class="project comweapons button" style="background-image: url('img/h/h2.jpg'); background-size: contain;" for="modalwa"></label>
+      <label class="project comweapons button" style="background-image: url('img/b/b1.jpg'); background-size: contain;" for="modalwb"></label>
+      <label class="project comweapons button" style="background-image: url('img/c/c2.jpg'); background-size: contain;" for="modalwc"></label>
+      <label class="project comweapons button" style="background-image: url('img/d/d3.jpg'); background-size: contain;" for="modalwd"></label>
+      <label class="project comweapons button" style="background-image: url('img/e/e4.jpg'); background-size: contain;" for="modalwe"></label>
+      <label class="project comweapons button" style="background-image: url('img/f/f5.jpg'); background-size: contain;" for="modalwf"></label>
+      <label class="project comweapons button" style="background-image: url('img/g/g1.jpg'); background-size: contain;" for="modalwg"></label>
+      
+
+      
+      
+      <label class="project offhand button" style="background-image: url('img/a/a1.jpg'); background-size: contain;" for="modaloa"></label>
+      <label class="project offhand button" style="background-image: url('img/i/i1.jpg'); background-size: contain;" for="modalob"></label>
+      <label class="project offhand button" style="background-image: url('img/j/j1.jpg'); background-size: contain;" for="modaloc"></label>
+
+      <label class="project offhand button" style="background-image: url('img/l/l1.jpg'); background-size: contain;" for="modalod"></label>
+      <label class="project offhand button" style="background-image: url('img/l/l2.jpg'); background-size: contain;" for="modaloe"></label>
+      <label class="project offhand button" style="background-image: url('img/l/l3.jpg'); background-size: contain;" for="modalof"></label>
+      <label class="project offhand button" style="background-image: url('img/l/l4.jpg'); background-size: contain;" for="modalog"></label>
+      <label class="project offhand button" style="background-image: url('img/l/l5.jpg'); background-size: contain;" for="modaloh"></label>
+
+      <label class="project inqweapons button" style="background-image: url('img/k/k1.jpg'); background-size: contain;" for="modalia"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k2.jpg'); background-size: contain;" for="modalib"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k3.jpg'); background-size: contain;" for="modalic"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k4.jpg'); background-size: contain;" for="modalid"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k5.jpg'); background-size: contain;" for="modalie"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k6.jpg'); background-size: contain;" for="modalif"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k7.jpg'); background-size: contain;" for="modalig"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k8.jpg'); background-size: contain;" for="modalih"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k9.jpg'); background-size: contain;" for="modalii"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k10.jpg'); background-size: contain;" for="modalij"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k11.jpg'); background-size: contain;" for="modalik"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k12.jpg'); background-size: contain;" for="modalil"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k13.jpg'); background-size: contain;" for="modalim"></label>
+      <label class="project inqweapons button" style="background-image: url('img/k/k14.jpg'); background-size: contain;" for="modalin"></label>
+
+      
+
+      
+      
+
+    </div>
+  </div>
+</div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  
+
+    <script>
+      $(".button-next").click(function() {
+    var e = $(".feature-slide.active");
+    $(e).removeClass("active"), 
+    $(e).next().addClass("active"), 
+    $(".feature-slide").hasClass("active") || $(".feature-slide:first").addClass("active")
+  });
+  
+  $(".button-prev").click(function() {
+    var e = $(".feature-slide.active");
+    $(e).removeClass("active"), $(e).prev().addClass("active"), $(".feature-slide").hasClass("active") || $(".feature-slide:last").addClass("active")
+  });
+    </script>
+  
+   
+  
+
+</body>
+
+</html>
+ 
